@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Moeez / Rumii 💗</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Pacifico&display=swap');
+:root{--pink:#ff6fae;--hot:#ff438f;--cream:#fff8fc;--ink:#65354f;--lav:#f2e8ff}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;font-family:Nunito,sans-serif;color:var(--ink);background:radial-gradient(circle at 15% 15%,#ffe0ee 0 9%,transparent 30%),radial-gradient(circle at 90% 30%,#e9dcff 0 8%,transparent 28%),linear-gradient(135deg,#fff7fb,#ffeaf4 55%,#f7efff);overflow-x:hidden}
+body:before{content:"♡  ✦  ♡  ·  ✿  ♡  ✦  ♡";position:fixed;inset:0;display:flex;align-items:center;justify-content:center;font-size:clamp(2rem,8vw,7rem);letter-spacing:1.5rem;color:#ff92bd;opacity:.12;pointer-events:none;transform:rotate(-20deg);z-index:-1}
+.wrap{width:min(900px,92%);margin:auto;padding:28px 0 55px}
+header{text-align:center;padding:20px 0 12px}
+.pill{display:inline-block;background:#fff;border:1px solid #ffd0e3;border-radius:99px;padding:8px 16px;font-weight:900;color:var(--hot);box-shadow:0 8px 20px #e98bb522}
+h1{font:clamp(2.6rem,8vw,5rem) Pacifico,cursive;color:var(--hot);margin:15px 0 8px;text-shadow:3px 4px 0 #fff}
+.subtitle{font-size:1.05rem;line-height:1.7;margin:0 auto;max-width:580px}
+.sticker{font-size:2.2rem;display:inline-block;animation:bob 2s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-8px) rotate(5deg)}}
+.card{background:#ffffffd9;border:2px solid #fff;box-shadow:0 18px 45px #d96b9d20, inset 0 0 0 1px #ffd4e5;border-radius:28px;padding:clamp(20px,5vw,38px);margin:22px 0;backdrop-filter:blur(8px)}
+h2{margin:0 0 8px;font-size:1.5rem;color:#b83d78}
+.hint{margin:0 0 20px;color:#986780}
+.question{padding:18px 0;border-bottom:1px dashed #f4bdd5}
+.question:last-child{border:0;padding-bottom:0}
+.question label,.qtitle{display:block;font-weight:900;margin-bottom:12px;font-size:1.05rem}
+.options{display:flex;flex-wrap:wrap;gap:9px}
+.choice{position:relative}
+.choice input{position:absolute;opacity:0;pointer-events:none}
+.choice span{display:inline-block;padding:10px 14px;border:1.5px solid #f3c4d9;border-radius:99px;background:#fff;cursor:pointer;transition:.18s;font-weight:800}
+.choice input:checked+span,.choice span:hover{background:#ffe0ee;border-color:var(--hot);transform:translateY(-1px)}
+input[type=text],textarea,select{width:100%;border:1.5px solid #f0bfd6;border-radius:15px;padding:13px 15px;font:inherit;color:var(--ink);background:#fff;outline:none}
+input:focus,textarea:focus,select:focus{border-color:var(--hot);box-shadow:0 0 0 4px #ff8fbd22}
+textarea{resize:vertical;min-height:90px}
+.actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:22px}
+button,.button{border:0;border-radius:99px;padding:13px 20px;font:900 1rem Nunito,sans-serif;cursor:pointer;transition:transform .18s,box-shadow .18s;text-decoration:none;display:inline-flex;justify-content:center;align-items:center;gap:8px}
+button:hover,.button:hover{transform:translateY(-2px);box-shadow:0 9px 20px #db589533}
+.primary{background:linear-gradient(135deg,#ff77b5,#ff438f);color:white;box-shadow:0 7px 16px #ff438f30}
+.soft{background:#fff0f7;color:#b83d78;border:1px solid #ffc9df}
+#noBtn{position:relative}
+#reaction{display:none;margin-top:18px;padding:14px;border-radius:18px;background:#fff0f7;font-weight:900;color:#b83d78}
+footer{text-align:center;font-size:.88rem;color:#a36b88;padding:10px}
+.small{font-size:.85rem;line-height:1.6;color:#96647e}
+.heart{position:fixed;bottom:-30px;pointer-events:none;animation:floatup 4s linear forwards;z-index:10}
+@keyframes floatup{to{transform:translateY(-110vh) rotate(30deg);opacity:0}}
+#success{display:none;text-align:center}
+#success h2{font:2rem Pacifico,cursive;color:var(--hot)}
+@media(max-width:540px){.actions button,.actions .button{width:100%}.card{border-radius:22px}.choice span{font-size:.92rem}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="sticker">💌 🧸 💗</div><br>
+  <span class="pill">A tiny page with a big question ✨</span>
+  <h1>Moeez / Rumii</h1>
+  <p class="subtitle">A cute little questionnaire for someone special.<br>Answer honestly, pick your vibe, and don't forget to smile 🌷</p>
+</header>
+
+<section class="card" id="intro">
+  <h2>Hey, you! 💕</h2>
+  <p>There are no wrong answers here—just a few cute questions, a little teasing, and some pink-level drama.</p>
+  <div class="actions">
+    <button class="primary" onclick="startQuestions()">Okay, let's go! 💖</button>
+    <button class="soft" onclick="tease()">I'm shy 🙈</button>
+  </div>
+  <div id="reaction" role="status"></div>
+</section>
+
+<form id="quiz" class="card" style="display:none">
+  <h2>Important questions (not really) 💘</h2>
+  <p class="hint">Choose what feels right. You can skip anything you don't want to answer.</p>
+
+  <div class="question">
+    <span class="qtitle">1. Rate Moeez out of 10 ⭐</span>
+    <div class="options">
+      <label class="choice"><input type="radio" name="rating" value="1–3"><span>1–3 😭</span></label>
+      <label class="choice"><input type="radio" name="rating" value="4–6"><span>4–6 🙂</span></label>
+      <label class="choice"><input type="radio" name="rating" value="7–8"><span>7–8 💗</span></label>
+      <label class="choice"><input type="radio" name="rating" value="9"><span>9 🥹</span></label>
+      <label class="choice"><input type="radio" name="rating" value="10/10"><span>10/10, obviously 😌</span></label>
+    </div>
+  </div>
+
+  <div class="question">
+    <span class="qtitle">2. What are we? 🌸</span>
+    <div class="options">
+      <label class="choice"><input type="radio" name="vibe" value="Besties"><span>Besties 🫶</span></label>
+      <label class="choice"><input type="radio" name="vibe" value="Crush vibes"><span>Crush vibes 💓</span></label>
+      <label class="choice"><input type="radio" name="vibe" value="Maybe love"><span>Maybe love 💞</span></label>
+      <label class="choice"><input type="radio" name="vibe" value="Still figuring it out"><span>Still figuring it out 🌱</span></label>
+    </div>
+  </div>
+
+  <div class="question">
+    <span class="qtitle">3. Would you like to go on a date with Moeez? 🍓</span>
+    <div class="options">
+      <label class="choice"><input type="radio" name="date" value="Yes"><span>Yes! 💗</span></label>
+      <label class="choice"><input type="radio" name="date" value="Maybe"><span>Maybe 👀</span></label>
+    </div>
+    <p class="small">A real answer is always okay. No pressure! 💕</p>
+  </div>
+
+  <div class="question">
+    <span class="qtitle">4. How can Moeez impress you? ✨</span>
+    <div class="options">
+      <label class="choice"><input type="checkbox" name="impress" value="Make me laugh"><span>Make me laugh 😂</span></label>
+      <label class="choice"><input type="checkbox" name="impress" value="Be kind and thoughtful"><span>Be kind 🧸</span></label>
+      <label class="choice"><input type="checkbox" name="impress" value="Give me time and attention"><span>Time & attention 💌</span></label>
+      <label class="choice"><input type="checkbox" name="impress" value="Be honest"><span>Be honest 🌷</span></label>
+      <label class="choice"><input type="checkbox" name="impress" value="Just be himself"><span>Just be himself 💗</span></label>
+    </div>
+  </div>
+
+  <div class="question">
+    <label for="bestQuality">5. What's Moeez's cutest quality? 🐻</label>
+    <input id="bestQuality" name="bestQuality" type="text" maxlength="180" placeholder="His smile, humour, kindness...">
+  </div>
+
+  <div class="question">
+    <label for="memory">6. What's one memory or moment with Moeez you like? 🎀</label>
+    <textarea id="memory" name="memory" maxlength="500" placeholder="Tell us a little story (optional)..."></textarea>
+  </div>
+
+  <div class="question">
+    <span class="qtitle">7. Pick our imaginary hangout 🍰</span>
+    <div class="options">
+      <label class="choice"><input type="radio" name="hangout" value="Cafe and cake"><span>Cafe & cake 🍰</span></label>
+      <label class="choice"><input type="radio" name="hangout" value="A walk and talk"><span>Walk & talk 🌇</span></label>
+      <label class="choice"><input type="radio" name="hangout" value="Games together"><span>Gaming 🎮</span></label>
+      <label class="choice"><input type="radio" name="hangout" value="Movie night"><span>Movie night 🎬</span></label>
+    </div>
+  </div>
+
+  <div class="question">
+    <label for="message">8. Leave Moeez a tiny message 💌</label>
+    <textarea id="message" name="message" maxlength="600" placeholder="Anything sweet, funny, or totally random..."></textarea>
+  </div>
+
+  <div class="actions">
+    <button class="primary" type="submit">Finish & send answers 💌</button>
+    <button class="soft" type="button" onclick="window.scrollTo({top:0,behavior:'smooth'})">Back to top ↑</button>
+  </div>
+  <p class="small">When you submit, your email app will open with the answers addressed to momonawab128@gmail.com. You'll review and press Send there.</p>
+</form>
+
+<section class="card" id="success">
+  <div class="sticker">💗 🥹 💗</div>
+  <h2>You're a sweetheart!</h2>
+  <p>Your answers are ready in an email draft. Check it and tap <b>Send</b> to deliver them to Moeez's inbox.</p>
+  <button class="primary" onclick="window.location.reload()">Do it again 🔁</button>
+</section>
+
+<footer>Made with a little blush, a lot of hearts, and good vibes only 💗<br><span class="small">Be kind, be honest, and respect every answer.</span></footer>
+</div>
+<script>
+const reaction=document.getElementById('reaction');
+function showReaction(text){reaction.textContent=text;reaction.style.display='block';}
+function startQuestions(){document.getElementById('quiz').style.display='block';document.getElementById('quiz').scrollIntoView({behavior:'smooth',block:'start'});hearts();}
+function tease(){const lines=["No worries, shy bean 🥹 You can take your time.","The teddy bear says you got this 🧸","Blushing detected! 🚨💗","It's okay—this page is 90% hearts and 10% courage."];showReaction(lines[Math.floor(Math.random()*lines.length)]);hearts();}
+function hearts(){for(let i=0;i<9;i++){const h=document.createElement('span');h.className='heart';h.textContent=['💗','💕','♡','🌸','✨'][Math.floor(Math.random()*5)];h.style.left=Math.random()*100+'vw';h.style.fontSize=(18+Math.random()*22)+'px';h.style.animationDuration=(3+Math.random()*2)+'s';document.body.appendChild(h);setTimeout(()=>h.remove(),5200);}}
+document.getElementById('quiz').addEventListener('submit',function(e){
+ e.preventDefault();
+ const fd=new FormData(this);
+ const get=(name)=>fd.get(name)||'Not answered';
+ const checks=fd.getAll('impress');
+ const answers=[
+  'MOEEZ / RUMII — CUTE QUESTIONNAIRE',
+  '-----------------------------------',
+  'Rate Moeez: '+get('rating'),
+  'Relationship vibe: '+get('vibe'),
+  'Would you go on a date?: '+get('date'),
+  'How Moeez can impress you: '+(checks.join(', ')||'Not answered'),
+  "Moeez's cutest quality: "+get('bestQuality'),
+  'Favourite memory: '+get('memory'),
+  'Imaginary hangout: '+get('hangout'),
+  'Message: '+get('message')
+ ].join('\n');
+ const subject=encodeURIComponent('Moeez / Rumii 💗 — Questionnaire Answers');
+ const body=encodeURIComponent(answers);
+ document.getElementById('quiz').style.display='none';
+ document.getElementById('success').style.display='block';
+ document.getElementById('success').scrollIntoView({behavior:'smooth'});
+ window.location.href='mailto:momonawab128@gmail.com?subject='+subject+'&body='+body;
+});
+</script>
+</body>
+</html>
